@@ -73,13 +73,15 @@ func UpdateUserController(c echo.Context) error {
 	}
 	user := User{}
 	c.Bind(&user)
+	if user.Id == 0 {
+		user.Id = users[data].Id
+	}
 
-	x := users
+	users[data] = user
 
-	users = append(users, user)
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success update user by id",
-		"users":   x[data],
+		"users":   users,
 	})
 }
 
